@@ -1,0 +1,102 @@
+[
+  {
+    "query": "How do I rotate my API key without breaking production?",
+    "relevant_doc_ids": ["auth-001"]
+  },
+  {
+    "query": "What OAuth scopes are available and how long do access tokens last?",
+    "relevant_doc_ids": ["auth-002"]
+  },
+  {
+    "query": "How can a server authenticate to the API without a human logging in?",
+    "relevant_doc_ids": ["auth-003"]
+  },
+  {
+    "query": "What happens if I exceed the API calls included in the Growth plan?",
+    "relevant_doc_ids": ["billing-001", "billing-003"]
+  },
+  {
+    "query": "Where can I download past invoices?",
+    "relevant_doc_ids": ["billing-002"]
+  },
+  {
+    "query": "How can I reduce my monthly TechCorp bill?",
+    "relevant_doc_ids": ["billing-003", "billing-001"]
+  },
+  {
+    "query": "What is the rate limit on the Starter tier and what headers show my remaining quota?",
+    "relevant_doc_ids": ["ratelimit-001"]
+  },
+  {
+    "query": "My requests are getting 429 errors, what should my retry logic look like?",
+    "relevant_doc_ids": ["ratelimit-002", "ratelimit-001"]
+  },
+  {
+    "query": "How do I roll back a bad production deployment?",
+    "relevant_doc_ids": ["deploy-001"]
+  },
+  {
+    "query": "What's the difference between environment variables and secrets?",
+    "relevant_doc_ids": ["deploy-002"]
+  },
+  {
+    "query": "How do I set up a custom domain with HTTPS?",
+    "relevant_doc_ids": ["deploy-003"]
+  },
+  {
+    "query": "How long are application logs retained and can I export them to Datadog?",
+    "relevant_doc_ids": ["monitor-001"]
+  },
+  {
+    "query": "How do I avoid alert fatigue when configuring monitoring alerts?",
+    "relevant_doc_ids": ["monitor-002"]
+  },
+  {
+    "query": "Does the platform support distributed tracing with OpenTelemetry?",
+    "relevant_doc_ids": ["monitor-003"]
+  },
+  {
+    "query": "Is data encrypted at rest and can I bring my own encryption key?",
+    "relevant_doc_ids": ["security-001"]
+  },
+  {
+    "query": "Is TechCorp Cloud SOC 2 certified?",
+    "relevant_doc_ids": ["security-002"]
+  },
+  {
+    "query": "How do I verify a webhook actually came from TechCorp?",
+    "relevant_doc_ids": ["webhook-001"]
+  },
+  {
+    "query": "What happens if my webhook endpoint returns an error?",
+    "relevant_doc_ids": ["webhook-002"]
+  },
+  {
+    "query": "I'm getting a 403 error even though my API key looks correct, why?",
+    "relevant_doc_ids": ["troubleshoot-001"]
+  },
+  {
+    "query": "Why might my API responses be slow on the Starter tier?",
+    "relevant_doc_ids": ["troubleshoot-002"]
+  },
+  {
+    "query": "My deployment build keeps timing out, how do I fix that?",
+    "relevant_doc_ids": ["troubleshoot-003"]
+  },
+  {
+    "query": "Does TechCorp offer a managed Redis instance?",
+    "relevant_doc_ids": ["data-001"]
+  },
+  {
+    "query": "How long can a signed URL for object storage remain valid?",
+    "relevant_doc_ids": ["data-002"]
+  },
+  {
+    "query": "What support SLA do Enterprise customers get for a production outage?",
+    "relevant_doc_ids": ["support-001"]
+  },
+  {
+    "query": "Where can I check if TechCorp is having an outage right now?",
+    "relevant_doc_ids": ["support-002"]
+  }
+]

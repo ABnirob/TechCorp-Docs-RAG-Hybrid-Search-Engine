@@ -1,0 +1,170 @@
+[
+  {
+    "doc_id": "auth-001",
+    "category": "Authentication",
+    "title": "API Key Authentication",
+    "text": "TechCorp Cloud uses API keys for authenticating requests to the platform. Every request must include the header 'Authorization: Bearer <API_KEY>'. API keys are generated from the Dashboard under Settings > API Keys and are scoped to a single project. Keys can be rotated at any time; rotating a key immediately invalidates the previous one, so clients should implement a rolling update strategy when rotating in production. Never embed API keys in client-side code or public repositories, since leaked keys are the single most common cause of account compromise on the platform."
+  },
+  {
+    "doc_id": "auth-002",
+    "category": "Authentication",
+    "title": "OAuth 2.0 Integration",
+    "text": "For user-facing applications, TechCorp Cloud supports the OAuth 2.0 Authorization Code flow with PKCE. Register a redirect URI in the Dashboard, then direct users to /oauth/authorize with the required scopes: read:profile, write:data, and admin:billing. After the user grants consent, exchange the authorization code for an access token and refresh token at /oauth/token. Access tokens expire after 60 minutes; refresh tokens are valid for 30 days and are rotated on each use to reduce replay risk."
+  },
+  {
+    "doc_id": "auth-003",
+    "category": "Authentication",
+    "title": "Service Accounts and Machine-to-Machine Auth",
+    "text": "Service accounts allow server-to-server communication without a human in the loop. Create a service account in the Dashboard, download the JSON credential file, and use the Client Credentials grant to obtain short-lived access tokens (default TTL 15 minutes). Service accounts can be assigned fine-grained IAM roles such as reader, editor, or billing-admin, and all their actions are logged in the audit trail for compliance purposes."
+  },
+  {
+    "doc_id": "billing-001",
+    "category": "Billing",
+    "title": "Pricing Tiers Overview",
+    "text": "TechCorp Cloud offers three pricing tiers: Starter ($0/month, 10,000 API calls, community support), Growth ($99/month, 250,000 API calls, email support with 24-hour SLA), and Enterprise (custom pricing, unlimited calls, dedicated support engineer, and a 99.99% uptime SLA). Overage on Starter and Growth tiers is billed at $0.002 per additional API call. Enterprise customers can negotiate volume discounts and custom contractual SLAs."
+  },
+  {
+    "doc_id": "billing-002",
+    "category": "Billing",
+    "title": "Invoices and Payment Methods",
+    "text": "Invoices are generated on the first day of each billing cycle and are payable via credit card, ACH transfer, or wire transfer for Enterprise accounts. Failed payments trigger three retry attempts over seven days before the account is downgraded to a read-only state. Historical invoices can be downloaded as PDFs from Dashboard > Billing > Invoice History, and usage can be tracked in near real time on the Usage tab."
+  },
+  {
+    "doc_id": "billing-003",
+    "category": "Billing",
+    "title": "Cost Optimization Tips",
+    "text": "To reduce costs on TechCorp Cloud, enable response caching for idempotent GET requests, batch write operations using the /bulk endpoint instead of individual calls, and set up budget alerts under Dashboard > Billing > Alerts to get notified before crossing a spend threshold. Customers on the Growth tier who consistently exceed 200,000 calls per month are usually better served by upgrading to Enterprise rather than paying overage fees."
+  },
+  {
+    "doc_id": "ratelimit-001",
+    "category": "Rate Limits",
+    "title": "Default Rate Limits",
+    "text": "The default rate limit is 100 requests per second per API key on the Starter tier, 500 requests per second on Growth, and negotiable limits on Enterprise. Rate limit status is returned in three response headers: X-RateLimit-Limit, X-RateLimit-Remaining, and X-RateLimit-Reset. Exceeding the limit returns an HTTP 429 status code along with a Retry-After header indicating how many seconds to wait before retrying."
+  },
+  {
+    "doc_id": "ratelimit-002",
+    "category": "Rate Limits",
+    "title": "Handling 429 Errors Gracefully",
+    "text": "Clients should implement exponential backoff with jitter when they receive a 429 response, starting at a 1-second delay and doubling up to a maximum of 60 seconds. The official SDKs (Python, Node.js, and Go) implement this retry logic automatically, so most developers do not need to write their own backoff code. For high-throughput workloads, consider requesting a rate limit increase through the Dashboard support form at least 48 hours in advance."
+  },
+  {
+    "doc_id": "deploy-001",
+    "category": "Deployment",
+    "title": "Deploying Applications with the CLI",
+    "text": "The TechCorp CLI (tc-cli) deploys applications with a single command: 'tc-cli deploy --env production'. Deployments are zero-downtime by default, using a blue-green strategy that routes traffic to the new version only after health checks pass on /healthz. Rollbacks can be triggered with 'tc-cli rollback --to <deployment-id>', and the platform retains the last 10 deployments per environment for quick recovery."
+  },
+  {
+    "doc_id": "deploy-002",
+    "category": "Deployment",
+    "title": "Environment Variables and Secrets",
+    "text": "Environment variables are configured per environment (development, staging, production) under Dashboard > Config. Sensitive values should be stored as Secrets rather than plain Environment Variables; secrets are encrypted at rest with AES-256 and are only decrypted in memory at container start time. Changing a secret triggers an automatic redeploy of the affected service unless the 'manual-restart' flag is enabled."
+  },
+  {
+    "doc_id": "deploy-003",
+    "category": "Deployment",
+    "title": "Custom Domains and TLS",
+    "text": "To attach a custom domain, add a CNAME record pointing to your-app.tc-edge.net, then verify ownership in Dashboard > Domains. TechCorp Cloud automatically provisions and renews TLS certificates via Let's Encrypt; certificate provisioning typically completes within 5 minutes of DNS propagation. Wildcard domains and custom TLS certificate upload are available on the Enterprise tier only."
+  },
+  {
+    "doc_id": "monitor-001",
+    "category": "Monitoring",
+    "title": "Logs and Log Retention",
+    "text": "Application logs are streamed in real time to Dashboard > Logs and are retained for 7 days on Starter, 30 days on Growth, and 1 year on Enterprise. Logs can be exported continuously to an external sink such as S3 or Datadog by configuring a Log Drain under Dashboard > Integrations. Structured JSON logging is recommended since it enables automatic field extraction and filtering in the Logs UI."
+  },
+  {
+    "doc_id": "monitor-002",
+    "category": "Monitoring",
+    "title": "Setting Up Alerts",
+    "text": "Alerts can be configured on metrics such as error rate, p95 latency, CPU utilization, and memory usage. Each alert rule defines a threshold, an evaluation window (e.g., 5 minutes), and a notification channel (email, Slack, PagerDuty, or a custom webhook). Alert fatigue is a common issue; TechCorp recommends starting with alerts only on error rate and latency, then expanding coverage gradually based on observed incidents."
+  },
+  {
+    "doc_id": "monitor-003",
+    "category": "Monitoring",
+    "title": "Distributed Tracing",
+    "text": "TechCorp Cloud supports distributed tracing via OpenTelemetry. Instrument your service with the tc-otel SDK, which automatically propagates trace context across service boundaries and exports spans to the built-in Traces dashboard. Traces are sampled at 10% by default to control storage costs, but this can be adjusted per environment, and 100% sampling is recommended temporarily while debugging a specific incident."
+  },
+  {
+    "doc_id": "security-001",
+    "category": "Security",
+    "title": "Data Encryption",
+    "text": "All data at rest is encrypted using AES-256, and all data in transit is encrypted using TLS 1.2 or higher. Database backups are encrypted with a separate key that is rotated quarterly. Customers on the Enterprise tier can bring their own encryption key (BYOK) through integration with AWS KMS or Google Cloud KMS for an additional layer of control over data access."
+  },
+  {
+    "doc_id": "security-002",
+    "category": "Security",
+    "title": "Compliance Certifications",
+    "text": "TechCorp Cloud is SOC 2 Type II certified and undergoes an annual third-party penetration test, with summary reports available to Enterprise customers under NDA. The platform is also GDPR compliant and offers a Data Processing Addendum (DPA) that can be signed directly from the Dashboard legal center. HIPAA-eligible infrastructure is available as an add-on for Enterprise healthcare customers."
+  },
+  {
+    "doc_id": "security-003",
+    "category": "Security",
+    "title": "Audit Logs",
+    "text": "Every administrative action, including permission changes, API key creation, and billing modifications, is recorded in the audit log with the actor, timestamp, IP address, and before/after state. Audit logs are immutable and retained for the lifetime of the account. Enterprise customers can stream audit logs to a SIEM in real time using the Audit Log Streaming API."
+  },
+  {
+    "doc_id": "sdk-001",
+    "category": "SDKs",
+    "title": "Python SDK Quickstart",
+    "text": "Install the Python SDK with 'pip install techcorp-sdk'. Initialize the client with 'client = TechCorp(api_key=\"...\")' and make your first call with 'client.data.list()'. The SDK automatically handles retries on transient network errors and 429 rate limit responses, and supports both synchronous and asyncio-based usage via the 'AsyncTechCorp' client class."
+  },
+  {
+    "doc_id": "sdk-002",
+    "category": "SDKs",
+    "title": "Node.js SDK Quickstart",
+    "text": "Install the Node.js SDK with 'npm install @techcorp/sdk'. The SDK is written in TypeScript and ships with full type definitions. Initialize it with 'const client = new TechCorp({ apiKey: process.env.TC_API_KEY })' and use promise-based methods such as 'await client.data.list()'. Streaming responses are supported for large datasets using async iterators."
+  },
+  {
+    "doc_id": "webhook-001",
+    "category": "Webhooks",
+    "title": "Configuring Webhooks",
+    "text": "Webhooks notify your application of events such as payment.succeeded, deployment.completed, and user.created. Configure an endpoint URL and select event types under Dashboard > Webhooks. Every webhook payload is signed using HMAC-SHA256 in the X-TechCorp-Signature header, and your endpoint should verify this signature before processing the event to prevent spoofed requests."
+  },
+  {
+    "doc_id": "webhook-002",
+    "category": "Webhooks",
+    "title": "Webhook Retry Behavior",
+    "text": "If your endpoint does not return a 2xx status code, TechCorp Cloud retries the webhook delivery up to 5 times with exponential backoff over 24 hours. Failed deliveries after all retries are logged in Dashboard > Webhooks > Delivery Log, and can be manually redelivered. It is recommended to process webhook events idempotently using the included event ID to avoid duplicate processing."
+  },
+  {
+    "doc_id": "troubleshoot-001",
+    "category": "Troubleshooting",
+    "title": "Common 401 and 403 Errors",
+    "text": "A 401 Unauthorized response usually means the API key is missing, malformed, or expired; check that the Authorization header is formatted as 'Bearer <key>' with no extra whitespace. A 403 Forbidden response means the key is valid but lacks permission for the requested resource; review the IAM role assigned to the key or service account under Dashboard > Access Control."
+  },
+  {
+    "doc_id": "troubleshoot-002",
+    "category": "Troubleshooting",
+    "title": "Debugging Slow API Responses",
+    "text": "If you notice elevated latency, first check Dashboard > Monitoring > Traces to identify whether the bottleneck is in your application code or a downstream TechCorp service. Common causes of slow responses include unindexed database queries, missing pagination on large list endpoints, and cold starts after a period of inactivity on the Starter tier, which does not include always-on compute."
+  },
+  {
+    "doc_id": "troubleshoot-003",
+    "category": "Troubleshooting",
+    "title": "Resolving Deployment Failures",
+    "text": "Deployment failures are most commonly caused by a failing health check on /healthz, a missing required environment variable, or a build timeout exceeding the 10-minute default limit. Check Dashboard > Deployments > Build Logs for the specific error, and note that build timeouts can be extended to 30 minutes on the Growth and Enterprise tiers by contacting support."
+  },
+  {
+    "doc_id": "data-001",
+    "category": "Data Storage",
+    "title": "Database Options",
+    "text": "TechCorp Cloud offers a managed PostgreSQL database with automatic daily backups retained for 7 days, and a managed Redis instance for caching and pub/sub use cases. Both are provisioned from Dashboard > Storage and scale vertically with a single click; horizontal read replicas for PostgreSQL are available on the Enterprise tier for read-heavy workloads."
+  },
+  {
+    "doc_id": "data-002",
+    "category": "Data Storage",
+    "title": "Object Storage and CDN",
+    "text": "Object storage buckets support files up to 5GB each and are automatically served through TechCorp's global CDN with edge caching in 30+ regions. Bucket access can be public, private, or signed-URL only, with signed URLs configurable to expire between 1 minute and 7 days after generation, suitable for temporary access to sensitive files."
+  },
+  {
+    "doc_id": "support-001",
+    "category": "Support",
+    "title": "Support Channels by Tier",
+    "text": "Starter tier customers get community forum support only. Growth tier customers get email support with a 24-hour response SLA on business days. Enterprise customers are assigned a dedicated Technical Account Manager and get 24/7 priority support via a shared Slack channel, with a 1-hour response SLA for Severity 1 incidents affecting production."
+  },
+  {
+    "doc_id": "support-002",
+    "category": "Support",
+    "title": "Status Page and Incident Communication",
+    "text": "Real-time platform status is published at status.techcorp.example, broken down by region and service component. During an active incident, updates are posted at least every 30 minutes until resolution, followed by a public post-incident review within 5 business days for any incident affecting more than 1% of customers."
+  }
+]

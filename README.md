@@ -1,35 +1,8 @@
-# <span style="color:blue">TechCorp Docs RAG — Production-Grade Hybrid Search Engine</span>
+# TechCorp Docs RAG — Hybrid Search Engine
 
-[![FastAPI](https://img.shields.io/badge/API-FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
-[![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
-[![Docker](https://img.shields.io/badge/Docker-Supported-2496ED?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+A production-shaped Retrieval-Augmented Generation (RAG) system built to demonstrate the engineering decisions that separate a "notebook demo" from something you'd actually ship: chunking strategy tradeoffs, hybrid sparse+dense retrieval, a real evaluation harness with quantitative metrics, an HTTP API, tests, and a Dockerfile.
 
-A production-shaped Retrieval-Augmented Generation (RAG) system built deliberately to demonstrate the rigorous engineering decisions that separate a transient "notebook demo" from a resilient, enterprise-ready search architecture. This project showcases chunking strategy trade-offs, hybrid sparse+dense retrieval mechanics, automated regression evaluation with quantitative metrics, and containerized API deployment.
-
-The system executes over a synthetic enterprise knowledge base ("TechCorp Cloud") comprising 28 comprehensive source documents spanning critical operational domains: Authentication, Billing, Rate Limits, Automated Deployments, Observability, Infrastructure Security, SDK Lifecycles, Webhooks, and Root-Cause Troubleshooting.
-
-> **Zero-Dependency Core:** Runs fully offline out of the box with zero third-party API keys, local model weight downloads, or hardware acceleration required. Simply plug in an `ANTHROPIC_API_KEY` to instantly upgrade from local extractive fallbacks to an enterprise-grade, deterministic synthesis loop with verifiable inline citations.
-
----
-
-## <span style="color:blue">Why This Project Exists</span>
-
-Standard RAG portfolio projects routinely collapse under production edge cases because they stop at basic vector abstractions over static documents. This repository is architected explicitly around the non-trivial questions faced during system design reviews for mid-to-senior AI Platform Engineering roles:
-
-* **Verifiable Metrics Over Intuition:** Instead of assuming chunking configurations are optimal, this architecture employs an isolated evaluation harness providing quantitative regression tracking across standardized information retrieval metrics.
-* **Retriever Complementarity:** Rather than relying exclusively on dense vector spaces—which notoriously degrade on precise alphanumeric identifiers, serial numbers, and system error codes—this engine pairs a lexical token index (BM25) with semantic representations to construct a resilient, hybrid retrieval boundary.
-* **Determinism & Verification:** To mitigate semantic hallucinations, the generation layer exposes an isolated faithfulness validation loop utilizing both an LLM-as-a-Judge protocol and deterministic, zero-cost fallback heuristics.
-* **Production-Grade Infrastructure:** The core runtime is exposed through a multi-worker FastAPI application complete with structural data schema validation, comprehensive unit/integration test assertions, performance metrics endpoints, and an optimized, multi-stage Docker execution environment.
-
----
-
-## <span style="color:blue">Architecture Topology</span>
-
-
-
-
- 
+It answers questions over a synthetic knowledge base for a fictional cloud platform ("TechCorp Cloud") covering auth, billing, rate limits, deployments, monitoring, security, SDKs, webhooks, and troubleshooting — 28 source docs, 29 chunks after chunking, 25 hand-labeled evaluation queries with ground-truth relevant documents.
 
 **Runs fully offline out of the box — no API key, no GPU, no model download required.** Plug in an `ANTHROPIC_API_KEY` to swap the extractive fallback for real LLM-generated, cited answers.
 
