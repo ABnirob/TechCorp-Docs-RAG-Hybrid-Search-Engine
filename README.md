@@ -29,14 +29,7 @@ Standard RAG portfolio projects routinely collapse under production edge cases b
 
 
 
-
-
-
-# TechCorp Docs RAG — Hybrid Search Engine
-
-A production-shaped Retrieval-Augmented Generation (RAG) system built to demonstrate the engineering decisions that separate a "notebook demo" from something you'd actually ship: chunking strategy tradeoffs, hybrid sparse+dense retrieval, a real evaluation harness with quantitative metrics, an HTTP API, tests, and a Dockerfile.
-
-It answers questions over a synthetic knowledge base for a fictional cloud platform ("TechCorp Cloud") covering auth, billing, rate limits, deployments, monitoring, security, SDKs, webhooks, and troubleshooting — 28 source docs, 29 chunks after chunking, 25 hand-labeled evaluation queries with ground-truth relevant documents.
+ 
 
 **Runs fully offline out of the box — no API key, no GPU, no model download required.** Plug in an `ANTHROPIC_API_KEY` to swap the extractive fallback for real LLM-generated, cited answers.
 
